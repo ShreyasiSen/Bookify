@@ -5,22 +5,12 @@ const SearchItem = ({ item }) => {
   return (
     <div className="flex flex-col sm:flex-row gap-6 p-6 rounded-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-gray-700 shadow-[0_10px_25px_rgba(0,0,0,0.4)] hover:shadow-[0_12px_30px_rgba(99,102,241,0.4)] transform hover:-translate-y-1 transition-all duration-300 ease-in-out">
       
-      {/* Image Section */}
-      <div className="w-full sm:w-60 h-44 rounded-xl overflow-hidden shadow-inner shadow-black/30">
-        <img
-          src={item?.photos[0]}
-          alt={item?.name}
-          className="w-full h-full object-cover rounded-xl transition-transform duration-300 hover:scale-105"
-        />
-      </div>
-
       {/* Content Section */}
       <div className="flex flex-col justify-between flex-grow space-y-3">
         <div>
           <h2 className="text-2xl font-semibold text-indigo-400 tracking-wide leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
             {item?.name}
           </h2>
-          <p className="text-sm text-gray-400 font-light">{item?.distance}m from city center — ideal for a quick getaway</p>
           
           {item?.freeAirportTaxi && (
             <span className="inline-block mt-2 text-xs font-semibold text-white bg-green-600/90 px-4 py-1 rounded-full shadow-sm">

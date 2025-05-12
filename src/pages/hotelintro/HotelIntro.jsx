@@ -51,16 +51,8 @@ const HotelIntro = () => {
             </div>
 
             <div className="container mx-auto px-4 pt-20 pb-16 mt-20 sm:pt-24 md:pt-32 w-full lg:w-4/5 xl:w-3/4">
-                <div className="flex flex-col lg:flex-row gap-20">
-                    {/* Image Section */}
-                    <div className="rounded-xl shadow-lg overflow-hidden lg:w-1/2">
-                        <img
-                            src={hotel?.photos[0]}
-                            alt={hotel?.name}
-                            className="w-full h-full object-cover"
-                            style={{ minHeight: '300px' }}
-                        />
-                    </div>
+                <div className="flex flex-col lg:flex-row gap-20 justify-center items-center">
+                    {/* Removed Image Section */}
 
                     {/* Details Section */}
                     <div className="flex flex-col justify-center lg:w-1/2">
