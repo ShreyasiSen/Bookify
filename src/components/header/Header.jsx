@@ -43,6 +43,7 @@ const Header = () => {
 
    const datePickerRef = useRef();
   const buttonRef = useRef();
+   const modalRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -125,31 +126,40 @@ const Header = () => {
           </div>
 
           {/* Date Picker */}
-           <div className="relative">
-      <div
-        ref={buttonRef}
-        className="flex items-center gap-3 bg-white/30 px-4 py-3 rounded-lg cursor-pointer"
-        onClick={() => setOpenDate(!openDate)}
-      >
-        <FontAwesomeIcon icon={faCalendarDays} className="text-sky-500" />
-        <span className="text-sm text-white truncate">
-          {format(date[0].startDate, 'dd/MM/yyyy')} - {format(date[0].endDate, 'dd/MM/yyyy')}
-        </span>
+          <div className="relative z-10">
+        <div
+          className="flex items-center gap-3 bg-white/30 px-4 py-3 rounded-lg cursor-pointer"
+          onClick={() => setOpenDate(true)}
+        >
+          <FontAwesomeIcon icon={faCalendarDays} className="text-sky-500" />
+          <span className="text-sm text-white truncate">
+            {format(date[0].startDate, 'dd/MM/yyyy')} - {format(date[0].endDate, 'dd/MM/yyyy')}
+          </span>
+        </div>
       </div>
 
       {openDate && (
-        <div
-          ref={datePickerRef}
-          className="absolute z-50 mt-2 left-0 bg-white text-black rounded-xl shadow-xl overflow-hidden"
-        >
-          <DateRange
-            onChange={(item) => setDate([item.selection])}
-            ranges={date}
-            minDate={new Date()}
-          />
+        <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
+          <div
+            ref={modalRef}
+            className="bg-white p-4 rounded-xl max-w-sm w-[90vw] sm:w-[500px] shadow-2xl"
+          >
+            <DateRange
+              onChange={(item) => setDate([item.selection])}
+              ranges={date}
+              minDate={new Date()}
+              moveRangeOnFirstSelection={false}
+            />
+            <button
+              onClick={() => setOpenDate(false)}
+              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Done
+            </button>
+          </div>
         </div>
       )}
-    </div>
+
 
           {/* Guest Options */}
           <div className="relative">
