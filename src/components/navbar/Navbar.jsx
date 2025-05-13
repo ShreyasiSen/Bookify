@@ -80,134 +80,142 @@ const Navbar = () => {
 
   return (
     <>
-    {/* Backdrop when menu is open on mobile */}
-    {isMobileMenuOpen && (
-      <div
-        className="fixed inset-0 z-40 bg-black/30 md:hidden"
-        onClick={toggleMobileMenu}
-      />
-    )}
+      {/* Backdrop when menu is open on mobile */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+          onClick={toggleMobileMenu}
+        />
+      )}
 
-    <nav
-      className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-screen-lg transition-all duration-300 ease-in-out rounded-full ${
-        isScrolled
-          ? 'bg-white shadow-md text-gray-800'
-          : 'bg-white/50 backdrop-blur-md text-white'
-      }`}
-    >
-      <div className="container mx-auto w-full max-w-[95%] sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg flex justify-between items-center py-2 px-4 md:px-6 lg:px-8">
-        {/* Logo Section */}
-        <Link to="/" className="flex items-center space-x-2">
-          <div className="text-sm md:text-lg font-extrabold tracking-wide">
-            <span className={`${isScrolled ? 'text-indigo-500' : 'text-indigo-800'}`}>BOOKIFY</span>
-            <span className="text-yellow-400">v2</span>
+      <nav
+        className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-screen-lg transition-all duration-300 ease-in-out rounded-full ${isScrolled
+            ? 'bg-white shadow-md text-gray-800'
+            : 'bg-white/50 backdrop-blur-md text-white'
+          }`}
+      >
+        <div className="container mx-auto w-full max-w-[95%] sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg flex justify-between items-center py-2 px-4 md:px-6 lg:px-8">
+          {/* Logo Section */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="text-sm md:text-lg font-extrabold tracking-wide">
+              <span className={`${isScrolled ? 'text-indigo-500' : 'text-indigo-800'}`}>BOOKIFY</span>
+              <span className="text-yellow-400">v2</span>
+            </div>
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              aria-label="Toggle navigation menu"
+              className="text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              <FaBars className="h-6 w-6" />
+            </button>
           </div>
-        </Link>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={toggleMobileMenu}
-            aria-label="Toggle navigation menu"
-            className="text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            <FaBars className="h-6 w-6" />
-          </button>
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
+            {!isLoggedIn ? (
+              <>
+                <Link
+                  to="/register"
+                  className={`px-2 py-1 rounded-md font-semibold transition duration-200 ease-in-out text-sm md:text-base ${isScrolled
+                      ? 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
+                      : 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
+                    }`}
+                >
+                  Register
+                </Link>
+                <Link
+                  to="/login"
+                  className={`px-2 py-1 rounded-md font-semibold transition duration-200 ease-in-out text-sm md:text-base ${isScrolled
+                      ? 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
+                      : 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
+                    }`}
+                >
+                  Login
+                </Link>
+              </>
+            ) : (
+              <div className="flex items-center space-x-3 lg:space-x-4">
+                {profileData?.img ? (
+                  <Link to="/profile">
+                    <img
+                      src={profileData.img}
+                      alt="Profile"
+                      className="w-6 h-6 md:w-8 md:h-8 rounded-full object-cover cursor-pointer hover:opacity-80"
+                    />
+                  </Link>
+                ) : (
+                  <Link to="/profile">
+                    <FaUserCircle
+                      className={`text-xl md:text-2xl cursor-pointer ${isScrolled ? 'text-gray-600 hover:text-indigo-500' : 'text-gray-300 hover:text-yellow-400'
+                        }`}
+                    />
+                  </Link>
+                )}
+                <div className="hidden md:block text-xs lg:text-sm">
+                  <Link
+                    to="/profile"
+                    className={`font-semibold hover:underline ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+                  >
+                    {profileData?.username}
+                  </Link>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className={`px-2 py-1 rounded-md font-semibold transition duration-200 ease-in-out text-sm md:text-base ${isScrolled
+                      ? 'bg-red-100 text-red-500 hover:bg-red-200'
+                      : 'bg-red-500 text-white hover:bg-red-600'
+                    }`}
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
-          {!isLoggedIn ? (
-            <>
-              <Link
-                to="/register"
-                className={`px-2 py-1 rounded-md font-semibold transition duration-200 ease-in-out text-sm md:text-base ${
-                  isScrolled
-                    ? 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
-                    : 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
-                }`}
-              >
-                Register
-              </Link>
-              <Link
-                to="/login"
-                className={`px-2 py-1 rounded-md font-semibold transition duration-200 ease-in-out text-sm md:text-base ${
-                  isScrolled
-                    ? 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
-                    : 'bg-indigo-100 text-indigo-500 hover:bg-indigo-200'
-                }`}
-              >
-                Login
-              </Link>
-            </>
-          ) : (
-            <div className="flex items-center space-x-3 lg:space-x-4">
-              {profileData?.img ? (
-                <Link to="/profile">
-                  <img
-                    src={profileData.img}
-                    alt="Profile"
-                    className="w-6 h-6 md:w-8 md:h-8 rounded-full object-cover cursor-pointer hover:opacity-80"
-                  />
-                </Link>
-              ) : (
-                <Link to="/profile">
-                  <FaUserCircle
-                    className={`text-xl md:text-2xl cursor-pointer ${
-                      isScrolled ? 'text-gray-600 hover:text-indigo-500' : 'text-gray-300 hover:text-yellow-400'
-                    }`}
-                  />
-                </Link>
-              )}
-              <div className="hidden md:block text-xs lg:text-sm">
+        {/* Mobile Navigation Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden fixed top-[4.5rem] left-1/2 transform -translate-x-1/2 z-50 w-11/12 max-w-xs backdrop-blur-md bg-white/20 border border-white/30 shadow-lg px-6 py-4 transition-all duration-300 ease-in-out rounded-xl">
+            {!isLoggedIn ? (
+              <div className="flex flex-col space-y-3 text-center">
                 <Link
-                  to="/profile"
-                  className={`font-semibold hover:underline ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+                  to="/register"
+                  className="text-white font-medium py-2 px-4 bg-cyan-600 hover:bg-cyan-700 rounded-md transition"
                 >
-                  {profileData?.username}
+                  Register
+                </Link>
+                <Link
+                  to="/login"
+                  className="text-white font-medium py-2 px-4 bg-cyan-600 hover:bg-cyan-700 rounded-md transition"
+                >
+                  Login
                 </Link>
               </div>
-              <button
-                onClick={handleLogout}
-                className={`px-2 py-1 rounded-md font-semibold transition duration-200 ease-in-out text-sm md:text-base ${
-                  isScrolled
-                    ? 'bg-red-100 text-red-500 hover:bg-red-200'
-                    : 'bg-red-500 text-white hover:bg-red-600'
-                }`}
-              >
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
+            ) : (
+              <div className="flex flex-col space-y-3 text-center">
+                <Link
+                  to="/profile"
+                  className="text-white font-medium py-2 px-4 bg-gray-700 hover:bg-gray-800 rounded-md transition"
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-red-500 font-medium py-2 px-4 bg-white hover:bg-red-100 rounded-md transition"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
-      {/* Mobile Navigation Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden fixed top-[4.5rem] left-1/2 -translate-x-1/2 z-50 w-full max-w-screen-sm bg-gray-800 shadow-md rounded-b-lg py-2 px-4 transition-all duration-300 ease-in-out">
-          {!isLoggedIn ? (
-            <div className="flex flex-col space-y-2">
-              <Link to="/register" className="block py-2 px-4 text-white  rounded-md">
-                Register
-              </Link>
-              <Link to="/login" className="block py-2 px-4 text-white rounded-md">
-                Login
-              </Link>
-            </div>
-          ) : (
-            <div className="flex flex-col space-y-2">
-              <Link to="/profile" className="block py-2 px-4 text-gray-700 hover:bg-gray-100 rounded-md">
-                Profile
-              </Link>
-              <button onClick={handleLogout} className="block py-2 px-4 text-red-500 hover:bg-red-100 rounded-md">
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-    </nav>
-  </>
+      </nav>
+    </>
   );
 };
 

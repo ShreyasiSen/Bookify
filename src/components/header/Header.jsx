@@ -37,7 +37,7 @@ const Header = () => {
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundBlendMode: 'overlay',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dark overlay
+    // Dark overlay
     backgroundRepeat: 'no-repeat',
   };
 

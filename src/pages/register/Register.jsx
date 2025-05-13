@@ -1,123 +1,162 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationPage = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-  })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    })
-  }
-  
+    }));
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    const { username, email, password } = formData;
+    setError('');
 
-    const { username, email, password } = formData
-    setError('') // Clear previous errors
-
-    // Basic input validation
     if (!username || !email || !password) {
-      setError('All fields are required!')
-      return
+      setError('All fields are required!');
+      return;
     }
 
-    setLoading(true)
-    const API_URL='https://bookify-v2-2.onrender.com';
+    setLoading(true);
+    const API_URL = 'https://bookify-v2-2.onrender.com';
+
     try {
-      await axios.post(`${API_URL}/api/auth/register`, { username, email, password })
-      navigate('/login') // Redirect to login page on success
+      await axios.post(`${API_URL}/api/auth/register`, {
+        username,
+        email,
+        password,
+      });
+      navigate('/login');
     } catch (err) {
-      // Handle different error scenarios
       if (err.response) {
-        // If the error is due to a response from the server
-        setError(`Error: ${err.response.data.message || 'An error occurred'}`)
+        setError(err.response.data.message || 'An error occurred');
       } else if (err.request) {
-        // If the error is due to a request not being sent
-        setError('Network error. Please try again later.')
+        setError('Network error. Please try again later.');
       } else {
-        // General error handling
-        setError('An unexpected error occurred.')
+        setError('Unexpected error occurred.');
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
-        <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">Create Account</h2>
+    <div className="min-h-screen flex flex-col lg:flex-row w-full font-sans">
+      {/* Left section */}
+      <div className="relative w-full lg:w-1/2 h-64 lg:h-auto">
+        <img
+          src="/Register.jpg"
+          alt="Home"
+          className="object-cover w-full h-full"
+        />
+        <div className="absolute top-4 left-4 flex items-center space-x-2">
+          <div className="bg-white p-2 rounded-full shadow">
+            <span className="text-2xl font-bold text-cyan-700">B</span>
+          </div>
+          <span className="text-white text-xl font-semibold">BookifyV2</span>
+        </div>
+        <div className="absolute bottom-4 left-4 text-white text-lg font-medium leading-tight">
+          Away from Home,<br /> Yet Feels Like Home
+        </div>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Username */}
-          <div>
-            <label className="block text-gray-600 font-medium">Username</label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className="w-full p-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none transition duration-300"
-              placeholder="Enter your username"
+      {/* Right section */}
+      <div className="w-full bg-white  lg:w-1/2 px-6 py-10 sm:px-10 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-6">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+              alt="User"
+              className="w-16 h-16 mx-auto mb-2"
             />
+            <h2 className="text-2xl font-semibold text-gray-700">Create Account</h2>
           </div>
 
-          {/* Email */}
-          <div>
-            <label className="block text-gray-600 font-medium">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none transition duration-300"
-              placeholder="Enter your email"
-            />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Username */}
+            <div>
+              <label className="block text-gray-600 font-medium">Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                placeholder="Enter your username"
+                className="w-full p-3 border rounded-md border-gray-300 focus:ring-2 focus:ring-cyan-500 outline-none"
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-gray-600 font-medium">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                className="w-full p-3 border rounded-md border-gray-300 focus:ring-2 focus:ring-cyan-500 outline-none"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-gray-600 font-medium">Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a password"
+                className="w-full p-3 border rounded-md border-gray-300 focus:ring-2 focus:ring-cyan-500 outline-none"
+              />
+            </div>
+
+            {/* Error message */}
+            {error && <p className="text-sm text-red-600">{error}</p>}
+
+            {/* Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-cyan-600 text-white py-3 rounded-md font-semibold hover:bg-cyan-700 transition"
+            >
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+          </form>
+           <div className="flex items-center justify-center my-4">
+            <span className="w-full h-px bg-gray-300"></span>
+            <span className="px-4 text-gray-400 text-sm">OR</span>
+            <span className="w-full h-px bg-gray-300"></span>
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-gray-600 font-medium">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none transition duration-300"
-              placeholder="Create a password"
-            />
+
+          {/* Login redirect */}
+          <div className="mt-4 text-center">
+            <p className="text-gray-600">
+              Already have an account?{' '}
+              <a href="/login" className="text-cyan-600 font-semibold hover:underline">
+                Login here
+              </a>
+            </p>
           </div>
-
-          {/* Display error message if any */}
-          {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold"
-            disabled={loading} // Disable the button while loading
-          >
-            {loading ? 'Registering...' : 'Register'}
-          </button>
-        </form>
-
-        <div className="mt-4 text-center">
-          <p className="text-gray-600">Already have an account? <a href="/login" className="text-indigo-600 font-semibold">Login here</a></p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RegistrationPage
+export default RegistrationPage;
