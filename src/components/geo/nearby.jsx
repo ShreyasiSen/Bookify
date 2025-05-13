@@ -37,7 +37,7 @@ const HotelSearch = () => {
         console.log(lat, lng, distance);
 
         try {
-          const API_URL='https://bookify-v2-2.onrender.com';
+          const API_URL = 'https://bookify-v2-2.onrender.com';
           const response = await axios.get(`${API_URL}/api/hotels/nearby`, {
             params: {
               lat: parseFloat(lat),
@@ -64,54 +64,125 @@ const HotelSearch = () => {
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="bg-gradient-to-r from-blue-600 to-purple-700 h-screen flex justify-center items-center">
-        <div className="max-w-lg w-full mt-10 p-6 bg-white shadow-lg rounded-lg space-y-4">
-          <h2 className="text-3xl font-semibold text-center text-gray-800">Search for Nearby Hotels</h2>
+    <div className="bg-gray-900 min-h-screen py-16 relative">
+      {/* Floating Navbar */}
 
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Enter location (e.g., New York, USA)"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <Navbar />
+        {/* You can add more navigation items here if needed */}
+      </div>
 
-          <input
-            type="number"
-            value={distance}
-            onChange={(e) => setDistance(e.target.value)}
-            placeholder="Enter distance in km"
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-          />
+      <div className="min-h-screen flex flex-col-reverse md:flex-row bg-gradient-to-br from-[#0f172a] to-[#3b0764] text-white font-sans relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre-v2.png')] opacity-10 z-0" />
 
-          <button
-            onClick={handleSearch}
-            disabled={loading}
-            className="ml-48 w-20 py-2 bg-purple-600 text-white rounded-md font-semibold disabled:bg-gray-400"
-          >
-            {loading ? 'Loading...' : 'Search'}
-          </button>
+        {/* Left Pane - Search Form */}
+        <div className="relative z-10 w-full md:w-2/3 flex items-center justify-center p-6 md:p-12 lg:p-16">
+          <div className="w-full max-w-lg bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl p-8 border border-white/10">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-center mb-8 text-purple-300">
+              🌌 Explore Stays Nearby
+            </h2>
 
-          {error && <p className="text-red-500 text-center">{error}</p>}
+            <div className="space-y-6">
+              {/* Location Input */}
+              <div>
+                <label htmlFor="location" className="block text-sm font-semibold text-gray-300 mb-2">
+                  📍 Location
+                </label>
+                <input
+                  type="text"
+                  id="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Enter city or region"
+                  className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
+                />
+              </div>
 
-          {hotels.length > 0 ? (
-            <div className="space-y-4">
-              {hotels.map((hotel, index) => (
-                <div key={index} className="bg-gray-50 p-4 rounded-md shadow-sm" 
-                  onClick={() => navigate(`/hotels/${hotel._id}`)}>
-                  <h3 className="text-xl font-semibold text-gray-800">{hotel.name}</h3>
-                  <p className="text-gray-600">{hotel.address}</p>
+              {/* Distance Input */}
+              <div>
+                <label htmlFor="distance" className="block text-sm font-semibold text-gray-300 mb-2">
+                  📏 Distance (km)
+                </label>
+                <input
+                  type="number"
+                  id="distance"
+                  value={distance}
+                  onChange={(e) => setDistance(e.target.value)}
+                  placeholder="e.g., 10"
+                  className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:ring-2 focus:ring-purple-500 focus:outline-none transition"
+                />
+              </div>
+
+              {/* Search Button */}
+              <div className="text-center pt-4">
+                <button
+                  onClick={handleSearch}
+                  disabled={loading}
+                  className="w-full py-3 rounded-full bg-purple-600 hover:bg-purple-700 transition text-white font-bold tracking-wide shadow-lg disabled:bg-gray-700"
+                >
+                  {loading ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0c-3.14 0-6 1.86-8 5.36L4 12z" />
+                      </svg>
+                      Searching...
+                    </span>
+                  ) : (
+                    '🚀 Find Hotels'
+                  )}
+                </button>
+              </div>
+
+              {error && <p className="mt-4 text-red-400 text-center">{error}</p>}
+
+              {hotels.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-semibold text-purple-200 mb-3">Results</h3>
+                  <ul className="space-y-4">
+                    {hotels.map((hotel, index) => (
+                      <li key={index}>
+                        <button
+                          onClick={() => navigate(`/hotels/${hotel._id}`)}
+                          className="w-full flex justify-between items-center px-4 py-3 rounded-md bg-white/10 hover:bg-white/15 border border-white/20 transition"
+                        >
+                          <div>
+                            <h4 className="text-md font-bold text-white">{hotel.name}</h4>
+                            <p className="text-sm text-gray-300">{hotel.address}</p>
+                          </div>
+                          <svg className="w-5 h-5 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
+              )}
+
+              {hotels.length === 0 && !loading && !error && (
+                <p className="mt-6 text-center text-gray-400">No hotels found. Try adjusting your search.</p>
+              )}
             </div>
-          ) : (
-            <p className="text-center text-gray-100">No hotels found in your area.</p>
-          )}
+          </div>
+        </div>
+
+        {/* Right Pane - Visual Content */}
+        <div className="relative z-10 w-full md:w-1/3 flex items-center justify-center bg-gradient-to-tl from-purple-900/30 via-indigo-800/20 to-purple-950/20 p-8">
+          <div className="max-w-sm text-center space-y-6">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/854/854866.png"
+              alt="travel icon"
+              className="w-24 mx-auto animate-bounce drop-shadow-md"
+            />
+            <h2 className="text-2xl md:text-3xl font-semibold text-purple-100">Ready to find your dream stay?</h2>
+            <p className="text-sm text-gray-300 leading-relaxed">Search by location and distance to discover nearby hotels, resorts, and vacation rentals tailored just for you.</p>
+          </div>
         </div>
       </div>
-    </>
+
+    </div>
   );
 };
 
