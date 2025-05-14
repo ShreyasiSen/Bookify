@@ -4,7 +4,6 @@ import { DateRange } from 'react-date-range';
 import Navbar from '../../components/navbar/Navbar';
 import SearchItem from '../../components/searchItem/SearchItem';
 import { SearchContext } from '../../context/SearchContext';
-import { FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 
 const List = () => {

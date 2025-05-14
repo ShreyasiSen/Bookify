@@ -17,9 +17,8 @@ const Footer = () => {
 
                 {/* Links */}
                 <div className="flex gap-6 text-sm">
-                   
-                    <a href="#" className="hover:text-white transition-colors">Terms</a>
-                    <a href="#" className="hover:text-white transition-colors">Privacy</a>
+                    <a href="/terms" className="hover:text-white transition-colors">Terms</a>
+                    <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy</a>
                 </div>
 
                 {/* Social Icons */}
