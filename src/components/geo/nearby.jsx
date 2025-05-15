@@ -132,11 +132,6 @@ const HotelSearch = () => {
                   onClick={() => navigate(`/hotels/${hotel._id}`)}
                   className="cursor-pointer bg-gray-900 bg-opacity-90 rounded-xl shadow-md p-4 flex flex-col hover:shadow-lg transition duration-200"
                 >
-                  <img
-                    src="https://source.unsplash.com/400x200/?hotel,room"
-                    alt="hotel"
-                    className="w-full h-40 object-cover rounded-md mb-3"
-                  />
                   <h3 className="text-xl font-bold text-white">{hotel.name}</h3>
                   <p className="text-gray-400 text-sm mb-1">{hotel.address}</p>
                   <div className="flex items-center mb-1">
