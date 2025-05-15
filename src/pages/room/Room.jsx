@@ -225,9 +225,6 @@ const Room = () => {
                 </section>
 
 
-                {/* Search Details - Collapsible/Subtle Section */}
-
-
                 {/* Booking Modal - Modern Style */}
                 {showModal && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-md z-50">
